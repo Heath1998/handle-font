@@ -2,7 +2,7 @@ function flatten(nums) {
   let res = [];
   for(let i=0;i<nums.length;i++) {
     if(Array.isArray(nums[i])) {
-      res = res.caoncat(flatten(nums));
+      res = res.concat(flatten(nums[i]));
     } else {
       res.push(nums[i]);
     }
