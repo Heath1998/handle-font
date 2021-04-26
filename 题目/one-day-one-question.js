@@ -31,3 +31,28 @@ function selectN(data, n,sum) {
 // let arr = [3,5,1,7,6,9];
 // console.log(selectN(arr, 3, 14));
 
+
+function lengthSubstring(str) {
+  let arr = str.split('');
+  let cur = [];
+  let obj = {};
+  let left = 0, right = 0 
+  while(left <= right && right<arr.length) {
+    let val = arr[left];
+    if(obj[val] !== 1) {
+      obj[val] = 1;
+    } else {
+      obj[val] = 2;
+    }
+    cur.push(val);
+    while(obj[val] === 2) {
+      if (arr[left] === val) {
+        obj[val] = 1;
+      }
+      cur.shift();
+      left++;
+    }
+    right++;
+  }
+
+}
