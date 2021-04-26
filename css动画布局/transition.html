@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <div class="a">
+    <div class="b">
+    </div>
+    <div class="c"></div>
+  </div>
+</body>
+<style>
+  .a {
+    width: 400px;
+    height: 300px;
+    background-color: red;
+
+  }
+  .b {
+    width: 50px;
+    height: 70px;
+    background-color: blue;
+    transition: all 2s;
+    transform: scale(0.5);
+  }
+  .b:hover{
+    transform: rotate(45deg) scale(0.5);
+  }
+
+  @keyframes anim{
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .c {
+    width: 50px;
+    height: 50px;
+    background: black;
+    animation: anim 10s ease 1s infinite;
+  }
+</style>
+</html>

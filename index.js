@@ -100,12 +100,12 @@ function resolvePromise(promise2, x, resolve) {
 
 class myPromise{
   constructor(executor) {
-    this.status = 'pending';
+    this.state = 'pending';
     this.onResolveCallback = [];
     this.value = ''
     let resolve = (value) => {
-      if(this.status === 'pending') {
-        this.status = 'fulfilled'
+      if(this.state === 'pending') {
+        this.state = 'fulfilled'
         this.value = value;
         this.onResolveCallback.forEach(fn => fn());
       }
@@ -120,15 +120,14 @@ class myPromise{
   then(onFulFilled) {
     onFulFilled = typeof onFulFilled === 'function' ? onFulFilled : onFulFilled => onFulFilled;
     let promise2 = new myPromise((resolve) => {
-      if (this.status === 'fulfilled') {
+      if (this.state === 'fulfilled') {
         setTimeout(() => {
           let x = onFulFilled(this.value);
-          console.log('inner',x);
           resolvePromise(promise2, x, resolve);
         },0)
       }
 
-      if (this.status === 'pending') {
+      if (this.state === 'pending') {
         this.onResolveCallback.push(() => {
           setTimeout(() => {
             let x = onFulFilled(this.value);
@@ -142,6 +141,41 @@ class myPromise{
 }
 
 
+myPromise.race = function(promises) {
+  return new Promise(resolve => {
+    for(let i=0;i<promises.length;i++) {
+      promises[i].then(resolve);
+    }
+  })
+}
+
+myPromise.all = function(promises) {
+  let res = [];
+  let x = 0;
+  return new myPromise(resolve => {
+    for(let i=0;i<promises.length;i++) {
+      promises[i].then(val => {
+        res[i] = val;
+        x++;
+        if(x === promises.length) {
+          resolve(res);
+        }
+      });
+    }
+  })
+}
+
+
+
+// var arr = [new myPromise(resolve => {setTimeout(() => {
+//   resolve(1)
+// },1000) }), new myPromise(resolve => resolve(2)), new myPromise(resolve => resolve(3))];
+
+// // myPromise.race(arr).then(val => console.log(val));
+// myPromise.all(arr).then((val) => {
+//   console.log(val);
+// })
+
 // new Promise((resolve,reject) => {
 //   reject(1);
 // }).then(()=> {},(value)=> {
@@ -151,12 +185,146 @@ class myPromise{
 //   console.log('last-resolve');
 // }) 
 
-new myPromise((resolve) => {
-  console.log('begin')
-  resolve('hello')
-}).then(val=>{
-  console.log(val);
-  return 2;
-}).then(val=>{
-  console.log(val);
-})
+// new myPromise((resolve) => {
+//   console.log('begin')
+//   resolve('hello')
+// }).then(val=>{
+//   console.log(val);
+//   return 2;
+// }).then(val=>{
+//   console.log(val);
+// })
+
+Function.prototype.myApply = function (context, args) {
+  context.fn = this;
+  let res;
+  if(args) {
+    res = context.fn(...args);
+  } else {
+    res = context.fn();
+  }
+  delete context.fn;
+  return res;
+}
+
+// var obj = {
+//   test: function() {
+//     console.log(this.num);
+//   }
+// }
+// var obj1 = {
+//   num:123
+// }
+// bj.test.myApply(obj1);
+
+Function.prototype.myBind = function(context, ...args) {
+  let fn = this;
+  return (...newArgs) => fn.apply(context, [...args, ...newArgs]);
+}
+
+// var a = {
+//   b: 123,
+//   fn1: function(name,hello) {
+//     console.log(this.b);
+//     console.log(name, hello);
+//   }
+// }
+
+// var b = {
+//   b: 'hello'
+// }
+
+// var newFn1 = a.fn1.myBind(b, 'testName','hlllll');
+// newFn1();
+
+Function.prototype.call = function(context, ...args) {
+  context.fn = this;
+  let res = context.fn(...args);
+  delete context.fn;
+  return res;
+}
+
+function debounce(fn, wait) {
+  let timer = null;
+  return function() {
+    let context = this;
+    let args = arguments;
+    if(timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(context, args);
+    }, wait);
+  }
+}
+
+
+function throttle(fn, wait) {
+  let timer = null;
+  return function() {
+    let context = this;
+    let args = arguments;
+    if(!timer) {
+      timer = setTimeout(() => {
+        timer = null;
+        fn.apply(context,args);
+      }, wait)
+    }
+  }
+}
+
+class myEventEmitter{
+  constructor() {
+    this.events = {};
+  }
+  on(eventName, callback) {
+    this.events[eventName] = this.events[eventName] ? this.events[eventName] : [];
+    this.events[eventName].push(callback);
+  }
+  emit(eventName, ...args) {
+    this.events[eventName].forEach(fn => fn(...args));
+  }
+  off(eventName, callback) {
+    this.events[eventName] = this.events[eventName].filter(fn => fn !== callback)
+  }
+  once(eventName, callback) {
+    let fn = () => {
+      callback();
+      this.off(eventName, fn);
+    }
+    this.on(eventName, fn);
+  }
+}
+
+// let a = new myEventEmitter();
+// var fn = (num)=> {
+//   console.log('test1', num);
+// }
+// a.on('test', fn)
+// a.emit('test', 12345678);
+
+// a.once('test:once', () => {
+//   console.log('test:once');
+// })
+
+// a.emit('test:once');
+// a.emit('test:once');
+
+// a.off('test', fn);
+// a.emit('test', 12345678);
+
+function instance(l, r) {
+  let prototype = r.prototype;
+  while(1) {
+    if(l.__proto__  === prototype) {
+      console.log(prototype)
+      return true;
+    }
+    if(!l) {
+      console.log(l);
+      return false;
+    }
+    l = l.__propto__;
+  }
+}
+
+var a = {tste:123};
+instance(a, Object)
