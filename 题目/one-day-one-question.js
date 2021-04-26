@@ -35,6 +35,7 @@ function selectN(data, n,sum) {
 function lengthSubstring(str) {
   let arr = str.split('');
   let cur = [];
+  let res = [];
   let obj = {};
   let left = 0, right = 0 
   while(left <= right && right<arr.length) {
@@ -43,6 +44,9 @@ function lengthSubstring(str) {
       obj[val] = 1;
     } else {
       obj[val] = 2;
+      if(res.length < cur.length) {
+        res = cur.slice();
+      }
     }
     cur.push(val);
     while(obj[val] === 2) {
@@ -54,5 +58,10 @@ function lengthSubstring(str) {
     }
     right++;
   }
-
+  if(cur.length > res.length) {
+    res = cur.slice();
+  }
+  return res.join('');
 }
+
+console.log(lengthSubstring('loddda'));
