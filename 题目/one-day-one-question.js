@@ -39,8 +39,8 @@ function lengthSubstring(str) {
   let obj = {};
   let left = 0, right = 0 
   while(left <= right && right<arr.length) {
-    let val = arr[left];
-    if(obj[val] !== 1) {
+    let val = arr[right];
+    if(obj[val] === undefined) {
       obj[val] = 1;
     } else {
       obj[val] = 2;
@@ -64,4 +64,4 @@ function lengthSubstring(str) {
   return res.join('');
 }
 
-console.log(lengthSubstring('loddda'));
+console.log(lengthSubstring('lllodddabcdfr'));
