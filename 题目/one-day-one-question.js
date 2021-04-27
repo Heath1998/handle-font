@@ -32,6 +32,7 @@ function selectN(data, n,sum) {
 // console.log(selectN(arr, 3, 14));
 
 
+// 最长不重复子串
 function lengthSubstring(str) {
   let arr = str.split('');
   let cur = [];
@@ -64,4 +65,45 @@ function lengthSubstring(str) {
   return res.join('');
 }
 
-console.log(lengthSubstring('lllodddabcdfr'));
+// console.log(lengthSubstring('lllodddabcdfr'));
+
+
+// 分割数组成两个最接近的数组，如两列瀑布流
+
+function twoWaterfall(arr) {
+  let sum = Math.floor(arr.reduce((pre,val) => pre + val, 0) / 2);
+  let dp = new Array(arr.length+1).fill(0).map(() => new Array(sum+1).fill(0));
+  let state = new Array(arr.length+1).fill(0).map(() => new Array(sum+1).fill([]));
+  for(let i=0;i<=arr.length;i++) {
+    dp[i][0] = 0;
+    state[i][0] = [];
+  }
+  for(let j=1;j<=sum;j++) {
+    dp[0][j] = 0; 
+    state[0][j] = [];
+  }
+  for(let i=1;i<=arr.length;i++)
+    for(let j = 1;j<=sum;j++) {
+      if(arr[i-1] <= j) {
+        if(dp[i-1][j-arr[i-1]] + arr[i-1] > dp[i-1][j]) {
+          dp[i][j] = dp[i-1][j-arr[i-1]] + arr[i-1];
+          state[i][j] = state[i-1][j-arr[i-1]].slice();
+          state[i][j].push(arr[i-1])
+        } else {
+          dp[i][j] = dp[i-1][j];
+          state[i][j] = state[i-1][j].slice();
+        }
+        // dp[i][j] = Math.max(dp[i-1][j-arr[i-1]] + arr[i-1], dp[i-1][j]);
+      } else {
+        dp[i][j] = dp[i-1][j];
+        state[i][j] = state[i-1][j].slice();
+      }
+
+    }
+  return state[arr.length][sum];
+}
+
+console.log(twoWaterfall([55,66,1,45,7,8,16]));
+// console.log(twoWaterfall([7,4,1,2,3]));
+
+
