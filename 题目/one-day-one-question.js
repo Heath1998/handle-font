@@ -103,7 +103,57 @@ function twoWaterfall(arr) {
   return state[arr.length][sum];
 }
 
-console.log(twoWaterfall([55,66,1,45,7,8,16]));
+// console.log(twoWaterfall([55,66,1,45,7,8,16]));
 // console.log(twoWaterfall([7,4,1,2,3]));
 
 
+// function makeAlmostEqual (arr, part) {
+//   let orderedArr = arr.sort((a,b) => b - a)
+//   let res = Array(part).fill(void(0)).map(() => [])
+//   orderedArr.forEach(value => {
+//     let minArrIndex = getMinArrIndex(res)
+//     res[minArrIndex].push(value)
+//   })
+//   return res
+// }
+  
+// function getSum (arr) {
+//   return arr.reduce((sum, v) => sum + v, 0)
+// }
+  
+// function getMinArrIndex (arrs) {
+//   let minArrIndex = 0
+//   arrs.forEach((arr, index) => {
+//   if (getSum(arrs[minArrIndex]) > getSum(arrs[index])) {
+//     minArrIndex = index
+//   }
+//   })
+//   console.log(arrs)
+//   return minArrIndex
+// }
+  
+// var a = makeAlmostEqual([1, 65, 4, 32, 95, 33, 9, 3], 3);
+// var a = makeAlmostEqual([55,66,1,45,7,8,16], 3);
+// console.log(a);
+
+
+
+
+function  waterFall(arr, part) {
+  arr = arr.sort((a, b) => b - a);
+  let res = new Array(part).fill(0).map(() => []);
+  arr.forEach((val) => {
+    let midIndex = 0;
+    res.forEach((nums,resIndex)=> {
+      if(res[midIndex].reduce((pre, val) => pre+val, 0) > res[resIndex].reduce((pre, val) => pre+val , 0)) {
+        midIndex = resIndex;
+      }
+    })
+    res[midIndex].push(val);
+  });
+  return res;
+}
+
+var a = waterFall([1, 65, 4, 32, 95, 33, 9, 3], 3);
+// var a = makeAlmostEqual([55,66,1,45,7,8,16], 3);
+console.log(a);
