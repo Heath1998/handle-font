@@ -69,7 +69,6 @@ function lengthSubstring(str) {
 
 
 // 分割数组成两个最接近的数组，如两列瀑布流
-
 function twoWaterfall(arr) {
   let sum = Math.floor(arr.reduce((pre,val) => pre + val, 0) / 2);
   let dp = new Array(arr.length+1).fill(0).map(() => new Array(sum+1).fill(0));
@@ -138,7 +137,7 @@ function twoWaterfall(arr) {
 
 
 
-
+// 瀑布流用排序算法，可以分任意个part，核心贪心算法
 function  waterFall(arr, part) {
   arr = arr.sort((a, b) => b - a);
   let res = new Array(part).fill(0).map(() => []);
@@ -154,6 +153,36 @@ function  waterFall(arr, part) {
   return res;
 }
 
-var a = waterFall([1, 65, 4, 32, 95, 33, 9, 3], 3);
-// var a = makeAlmostEqual([55,66,1,45,7,8,16], 3);
-console.log(a);
+// var a = waterFall([1, 65, 4, 32, 95, 33, 9, 3], 3);
+// // var a = makeAlmostEqual([55,66,1,45,7,8,16], 3);
+// console.log(a);
+
+//  排序离数字N最近的数
+function sortN(arr, N){
+  return arr.sort((a, b) => {
+    return Math.abs(a-N) - Math.abs(b-N);
+  })
+}
+
+// console.log(sortN([4,5,2,67,1,9], 8));
+
+// 返回二进制1的个数
+function binaryOneNum(num) {
+  return num.toString(2).replace(/0/g, '').length;
+}
+
+// var a=1
+// console.log(binaryOneNum(9));
+// console.log(a.toString(2));
+
+//  获取10-100的随机数10个不相等的并且排序
+function getRandom() {
+  let res = [];
+  for(let i=0;i<10;i++) {
+    let ran = Math.floor((Math.random()*(91))) + 10;
+    res.indexOf(ran) === -1 ? res.push(ran) : i--;
+  }
+  return res.sort((a,b) => a-b);
+}
+
+// console.log(getRandom());
