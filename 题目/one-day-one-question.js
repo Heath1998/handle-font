@@ -64,4 +64,4 @@ function lengthSubstring(str) {
   return res.join('');
 }
 
-console.log(lengthSubstring('lllodddabcdfr'));
+// console.log(lengthSubstring('lllodddabcdfr'));
