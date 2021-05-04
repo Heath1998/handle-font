@@ -65,9 +65,7 @@ function lengthSubstring(str) {
   return res.join('');
 }
 
-<<<<<<< HEAD
 // console.log(lengthSubstring('lllodddabcdfr'));
-=======
 // console.log(lengthSubstring('lllodddabcdfr'));
 
 
@@ -189,4 +187,125 @@ function getRandom() {
 }
 
 // console.log(getRandom());
->>>>>>> 452d5601f653281608f113134a3433d4d12b2ab7
+// 找出现次数大于n/2次的数
+function findMode(arr) {
+  let sum = 1;
+  let mid = arr[0];
+  for(let i=1;i<arr.length;i++) {
+    if(sum === 0) {
+      sum++;
+      mid = arr[i];
+    }
+    else if (arr[i] === mid) {
+      sum++;
+    } else {
+     sum--;
+    }
+  }
+  return mid;
+}
+
+
+// console.log(findMode([2,2,2,4,4,5]))
+// O(n)
+// 因为真实遍历次数是n + n/2 + n/4 +...2;等比求和为2n即时间复杂度O（n）；
+function findMaxK(arr, k, left, right) {
+  if(left < right) {
+    let mid = partition(arr,left,right);
+    console.log(arr);
+    console.log(mid);
+    if(mid === k-1) {
+      return arr[mid];
+    } else {
+      return mid > k - 1 ? findMaxK(arr, k, left,mid-1): findMaxK(arr,k,mid+1,right);
+    }
+  }
+}
+
+function partition(arr,left,right) {
+  let pivot = left;
+  let pivotValue = arr[right];
+  for(let i=left;i<right;i++) {
+    if(arr[i] > pivotValue) {
+      [arr[i],arr[pivot]] = [arr[pivot], arr[i]];
+      pivot++;
+    }
+  }
+  [arr[pivot], arr[right]] = [arr[right],arr[pivot]];
+  return pivot;
+}
+// var arr = [4,2,1,7,8];
+// console.log(findMaxK(arr,2,0,arr.length-1));
+
+function adjustHeap(arr, i, len) {
+  let right = i*2+1;
+  let left = i*2;
+  let mid = i;
+  if(left < len && arr[mid] < arr[left]) {
+    mid = left;
+  } 
+  if(right < len && arr[mid] < arr[right]) {
+    mid = right;
+  }
+  [arr[mid],arr[i]] = [arr[i],arr[mid]];
+  if(mid !== i && mid < len) {
+    adjustHeap(arr, mid, len);
+  }
+}
+
+
+function  findKHeap(arr, k) {
+  let n = Math.floor(arr.length/2);
+  for(let i=n;i>=0;i--) {
+    adjustHeap(arr, i, arr.length);
+  }
+  console.log(arr);
+  for(let j=0;j<k;j++) {
+    [arr[0], arr[arr.length-1-j]] = [arr[arr.length-1-j], arr[0]];
+    adjustHeap(arr, 0, arr.length-1-j);
+  }
+  console.log(arr[arr.length-k]);
+  return arr[arr.length-k];
+} 
+
+
+// var arr = [4,2,1,7,8];
+// console.log(findKHeap(arr,2));
+
+
+function divideSort(arr, left, right) {
+  if(left < right) {
+    let mid = Math.floor( (left + right) / 2);
+    console.log(mid);
+    console.log(left,right)
+    divideSort(arr, left, mid);
+    divideSort(arr, mid+1, right);
+    mergeSort(arr,left,right, mid);
+  }
+}
+
+function mergeSort(arr, left, right, mid) {
+  let i=left,j=mid+1;
+  let cur = left;
+  let instead = [];
+  while(i<=mid&&j<=right) {
+    if(arr[i] > arr[j]) {
+      instead[cur++] = arr[j++];
+    } else {
+      instead[cur++] = arr[i++];
+    }
+  }
+  while(i<=mid) {
+    instead[cur++] = arr[i++];
+  }
+  while(j<=right) {
+    instead[cur++] = arr[j++];
+  }
+  for(let z=left;z<=right;z++) {
+    arr[z] = instead[z];
+  }
+}
+
+// var arr = [2,1,8,6,4,6,0,9,8];
+// divideSort(arr,0,arr.length-1);
+// console.log(arr);
