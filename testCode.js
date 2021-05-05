@@ -54,3 +54,9 @@ for(var i= 0;i<8;i++) {
   console.log('123345');
   console.log('asdsadsa');
 }
+let a = 2;
+console.log(a);
+
+function test() {
+  console.log('123');
+}
