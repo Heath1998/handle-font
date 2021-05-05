@@ -48,3 +48,10 @@ for(var i=0;i<5;i++) {
   })(i)
 
 }
+
+let a = 2;
+console.log(a);
+
+function test() {
+  console.log('123');
+}
