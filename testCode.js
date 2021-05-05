@@ -48,3 +48,9 @@ for(var i=0;i<5;i++) {
   })(i)
 
 }
+
+
+for(var i= 0;i<8;i++) {
+  console.log('123345');
+  console.log('asdsadsa');
+}
