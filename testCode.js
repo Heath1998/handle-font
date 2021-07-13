@@ -330,3 +330,74 @@ console.log(res);
 
 
 
+
+// }
+
+function debounce(fn, wait) {
+  let timer;
+  return function() {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    let context = this;
+    timer = setTimeout(() => {
+      fn();
+      timer = null;
+    }, wait);
+  }
+}
+
+var num = 55;
+
+function Obj (){
+    this.num = 1,
+    this.getNum = function(){
+        console.log(this.num);
+    },
+    this.getNumLater = function(){
+        setTimeout(() => {
+            console.log(this.num);
+        }, 3000)    //箭头函数中的this总是指向外层调用者，也就是Obj
+    }
+}
+var obj = new Obj; 
+// obj.getNum();//1　　打印的是obj.num，值为1
+// obj.getNumLater()//1　　打印的是obj.num，值为1
+
+var d ={num: 'fanze'}
+
+var c = obj.getNumLater;
+c();
+d.c = c;
+d.c();
+
+function deepClone(target, map = new WeakMap()) {
+  if (typeof target === 'object') {
+    let resTarget = target instanceof Array ? [] : {};
+    if (map.get(target)) {
+      return map.get(target);
+    }
+    map.set(target, resTarget);
+    for(var key in target) {
+      resTarget[key] = deepClone(target[key], map);
+    }
+    return resTarget;
+  } else {
+    return target;
+  }
+}
+
+
+var a = {
+  one: {
+    hello:123,
+    helloArray: [1,2,3],
+  },
+  two: 2,
+}
+
+a.three = a;
+
+var b = deepClone(a);
+console.log(b);
+// console.log(a);
