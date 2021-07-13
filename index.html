@@ -1,12 +1,35 @@
-<img style="display: none" src="" id="test" alt="error">
+<img style="display: none" src="" id="test" alt="error" />
 
-<div style="background: red;" onclick="hello()">hello</div>
-
+<div style="background: red" onclick="hello()">hello</div>
+<script src="https://www.baidu.com/"></script>
 <script>
-  function hello() {
-    var dom = document.getElementById('test');
-  dom.style.display = "block";
-  dom.src= "https://user-gold-cdn.xitu.io/2018/9/4/165a252be5c94d6b?imageslim";
+  // function hello() {
+  //   var dom = document.getElementById('test');
+  // dom.style.display = "block";
+  // dom.src= "https://user-gold-cdn.xitu.io/2018/9/4/165a252be5c94d6b?imageslim";
+  // }
+  class a {
+    constructor() {
+      this.hello = 1;
+    }
+    then() {
+      console.log("12");
+    }
   }
 
+  var ddd = new a();
+  console.log(ddd);
+
+  class b extends a {
+    constructor() {
+      super();
+      this.childb = "son";
+    }
+    childsan() {
+      console.log("as");
+    }
+  }
+
+  var z = new b();
+  console.log(z);
 </script>

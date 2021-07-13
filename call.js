@@ -1,7 +1,9 @@
-Function.prototype.myCall = function (context, ...rest) {
-  context.fn = this;
-  var result = context.fn(...rest);
-  delete context.fn;
+Function.prototype.myCall = function (context, ...args) {
+  let fnSymbol = new Symbol();
+
+  context[fnSymbol] = this;
+  var result = context[fnSymbol](...args);
+  delete context[fnSymbol];
   return result;
 }
 
