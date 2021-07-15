@@ -82,7 +82,7 @@ class myPromise {
   }
 } 
 
-// 返回最快完成的一个promise
+// 返回最快完成的一个promise的.then(回调)
 myPromise.race = function(promises) {
   return new Promise((resolve) => {
     for(let i=0;i<promises.length;i++) {
@@ -103,7 +103,7 @@ myPromise.all = function(promises) {
     }
   }
   return new Promise((resolve) => {
-    for(let i=0;i<promises.length;i++) {
+    for(var i=0;i<promises.length;i++) {
       promises[i].then(data => {
         processData(i, data, resolve);
       })
@@ -112,26 +112,26 @@ myPromise.all = function(promises) {
 }
 
 
-var a = new myPromise((resolve) => {
-  resolve(1)
-}).then((value) => {
-  console.log(value);
-  return value+1;
-}).then((value) => {
-  console.log(value);
-})
+// var a = new myPromise((resolve) => {
+//   resolve(1)
+// }).then((value) => {
+//   console.log(value);
+//   return value+1;
+// }).then((value) => {
+//   console.log(value);
+// })
 
-var b = new myPromise((resolve) => {
-  resolve('hello')
-}).then((value) => {
-  return new myPromise((resolve) => {
+// var b = new myPromise((resolve) => {
+//   resolve('hello')
+// }).then((value) => {
+//   return new myPromise((resolve) => {
 
-      resolve('i am inner')
+//       resolve('i am inner')
 
-  })
-}).then((value) => {
-  console.log(value);
-})
+//   })
+// }).then((value) => {
+//   console.log(value);
+// })
 
 var arr = [new Promise(resolve => {resolve(4)}),new Promise(resolve => {resolve(5)})];
 

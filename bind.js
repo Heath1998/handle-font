@@ -17,3 +17,14 @@ Function.prototype.newBind = function(context ,...args) {
 var newBind = a.fn1.newBind(a, 'testNewBindName');
 
 newBind('testNewBindHello')
+
+
+
+Function.prototype.myBind2 = function(context, ...args) {
+  let fn = this;
+  let fBound = function(...newArgs) {
+    return fn.apply(this instanceof fn ? this : context, [...args, ...newArgs]);
+  }
+  fBound.prototype = fn.prototype;
+  return fBound;
+}

@@ -16,7 +16,7 @@ function throttle(fn, wait) {
     let args = arguments;
     let context = this;
     if (!timeout) {
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         timeout = null;
         fn.apply(context, args);
       }, wait);
