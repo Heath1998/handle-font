@@ -114,6 +114,31 @@ var a = {
 
 a.three = a;
 
-var b = deepClone(a);
-console.log(b);
+// var b = deepClone(a);
+// console.log(b);
 // console.log(a);
+
+
+var name = 'window'; 
+
+var A = {
+   name: 'A',
+   sayHello: function(){
+     console.log(this.name, 'outter');
+      var s = () => console.log(this.name)
+      s();
+   }
+}
+
+var sayHello = A.sayHello;
+A.sayHello();
+sayHello();// 输出A 
+
+var B = {
+   name: 'B'
+}
+B.sayHello = sayHello;
+
+B.sayHello();
+sayHello.call(B); //还是A
+sayHello.call(); //还是
