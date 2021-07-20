@@ -1,8 +1,41 @@
 <img style="display: none" src="" id="test" alt="error" />
 
 <div style="background: red" onclick="hello()">hello</div>
+<div class="test">123</div>
+<div class="two">123</div>
+
+<div class="fl">
+  <div class="item"></div>
+  <div class="item"></div>
+  <div class="item"></div>
+  <div class="item"></div>
+  <div class="item"></div>
+</div>
+<style>
+  .fl{
+    width: 500px;
+    height: 300px;
+    border: 1px solid black;
+    display: flex;
+  }
+  .item {
+    width: 30px;
+    flex-basis: 100px;
+    flex: 1;
+    border: 1px solid blue;
+  }
+  .test{
+    width:30px;
+    height:30px;
+    background-color: aqua;
+    position: relative;
+    top: 50%;
+    left: 50%;
+  }
+</style>
 <script src="https://www.baidu.com/"></script>
 <script>
+
   // function hello() {
   //   var dom = document.getElementById('test');
   // dom.style.display = "block";
