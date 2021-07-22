@@ -232,144 +232,144 @@ class myEventEmitter{
 
 // },0)
 
-let c = /as/g;
-let a;
-while(a = c.exec('asdsdssdsas')){
-  console.log(a instanceof Array);
-  console.log(a.index);
-  console.log(a);
-}
+// let c = /as/g;
+// let a;
+// while(a = c.exec('asdsdssdsas')){
+//   console.log(a instanceof Array);
+//   console.log(a.index);
+//   console.log(a);
+// }
 
-let m = 'asddddasd'.match(c);
-console.log(m);
+// let m = 'asddddasd'.match(c);
+// console.log(m);
 
-console.log(c.test('asddsa'));
+// console.log(c.test('asddsa'));
 
-console.log('dasaaaaaaaaaaaaaasa'.replace(c, '12'))
+// console.log('dasaaaaaaaaaaaaaasa'.replace(c, '12'))
 
-//第k大的数
+// //第k大的数
 
-function getK(arr, left, right, k) {
-  if (left <= right) {
-    let mid = pariation(arr, left, right);
-    console.log(mid);
-    console.log(arr);
-    if (mid === k-1) {
-      return arr[mid];
-    } else {
-      return mid > k-1 ? getK(arr, left, mid-1,k) :getK(arr, mid+1,right,k);
-    }
-  }
-}
+// function getK(arr, left, right, k) {
+//   if (left <= right) {
+//     let mid = pariation(arr, left, right);
+//     console.log(mid);
+//     console.log(arr);
+//     if (mid === k-1) {
+//       return arr[mid];
+//     } else {
+//       return mid > k-1 ? getK(arr, left, mid-1,k) :getK(arr, mid+1,right,k);
+//     }
+//   }
+// }
 
-function pariation(arr,left, right) {
-  let pivotIndex = left;
-  let pivotValue = arr[right];
-  for(let i=left;i<right;i++) {
-    if (arr[i] > pivotValue) {
-      [arr[pivotIndex], arr[i]] = [arr[i], arr[pivotIndex]];
-      pivotIndex++;
-    }
-  }
-  [arr[pivotIndex],arr[right]] = [arr[right], arr[pivotIndex]];
-  return pivotIndex;
-}
+// function pariation(arr,left, right) {
+//   let pivotIndex = left;
+//   let pivotValue = arr[right];
+//   for(let i=left;i<right;i++) {
+//     if (arr[i] > pivotValue) {
+//       [arr[pivotIndex], arr[i]] = [arr[i], arr[pivotIndex]];
+//       pivotIndex++;
+//     }
+//   }
+//   [arr[pivotIndex],arr[right]] = [arr[right], arr[pivotIndex]];
+//   return pivotIndex;
+// }
 
-console.log(getK([3,1,5,4,6],0,4,2));
+// console.log(getK([3,1,5,4,6],0,4,2));
 
-var obj = {
-  b: '456'
-}
+// var obj = {
+//   b: '456'
+// }
 
-function test() {
-  this.a = '123';
-  console.log(this.b);
-}
-Function.prototype.bind1 = function (oThis) {
-  // oThis = null;
-  if (typeof this !== "function") {
-      // 与 ECMAScript 5 最接近的
-      // 内部 IsCallable 函数
-      throw new TypeError(
-          "Function.proptotype.bind  -  what is trying " +
-          "to be bound is not callable"
-      );
-  }
-  var aArgs = Array.prototype.slice.call(arguments, 1),
-      fToBind = this, // foo函数体
-      fNOP = function () {},
-      fBound = function () {
-          // this instanceof fNOP === true时,说明返回的fBound被当做new的构造函数调用
+// function test() {
+//   this.a = '123';
+//   console.log(this.b);
+// }
+// Function.prototype.bind1 = function (oThis) {
+//   // oThis = null;
+//   if (typeof this !== "function") {
+//       // 与 ECMAScript 5 最接近的
+//       // 内部 IsCallable 函数
+//       throw new TypeError(
+//           "Function.proptotype.bind  -  what is trying " +
+//           "to be bound is not callable"
+//       );
+//   }
+//   var aArgs = Array.prototype.slice.call(arguments, 1),
+//       fToBind = this, // foo函数体
+//       fNOP = function () {},
+//       fBound = function () {
+//           // this instanceof fNOP === true时,说明返回的fBound被当做new的构造函数调用
           
-          return fToBind.apply(
-              (
-                  this instanceof fNOP ? this : oThis
-              ),
-              aArgs.concat(
-                  Array.prototype.slice.call(arguments)
-              )
-          );
-      };
+//           return fToBind.apply(
+//               (
+//                   this instanceof fNOP ? this : oThis
+//               ),
+//               aArgs.concat(
+//                   Array.prototype.slice.call(arguments)
+//               )
+//           );
+//       };
 
-  // 维护原型关系
-  if (this.prototype) {
-      // Function.prototype doesn't have a prototype property
-      fNOP.prototype = this.prototype;
-  }
-  // 下行的代码使fBound.prototype是fNOP的实例,因此
-  // 返回的fBound若作为new的构造函数,new生成的新对象作为this传入fBound,
-  // 新对象的__proto__就是fNOP的实例
-  fBound.prototype = new fNOP();
-  return fBound;
-}
-var newTest = test.bind1(obj);
-test.prototype.hello = '11111';
+//   // 维护原型关系
+//   if (this.prototype) {
+//       // Function.prototype doesn't have a prototype property
+//       fNOP.prototype = this.prototype;
+//   }
+//   // 下行的代码使fBound.prototype是fNOP的实例,因此
+//   // 返回的fBound若作为new的构造函数,new生成的新对象作为this传入fBound,
+//   // 新对象的__proto__就是fNOP的实例
+//   fBound.prototype = new fNOP();
+//   return fBound;
+// }
+// var newTest = test.bind1(obj);
+// test.prototype.hello = '11111';
 
-var res = new newTest();
-console.log(res);
+// var res = new newTest();
+// console.log(res);
 
 
 
 
 // }
 
-function debounce(fn, wait) {
-  let timer;
-  return function() {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    let context = this;
-    timer = setTimeout(() => {
-      fn();
-      timer = null;
-    }, wait);
-  }
-}
+// function debounce(fn, wait) {
+//   let timer;
+//   return function() {
+//     if (timer) {
+//       clearTimeout(timer);
+//     }
+//     let context = this;
+//     timer = setTimeout(() => {
+//       fn();
+//       timer = null;
+//     }, wait);
+//   }
+// }
 
-var num = 55;
+// var num = 55;
 
-function Obj (){
-    this.num = 1,
-    this.getNum = function(){
-        console.log(this.num);
-    },
-    this.getNumLater = function(){
-        setTimeout(() => {
-            console.log(this.num);
-        }, 3000)    //箭头函数中的this总是指向外层调用者，也就是Obj
-    }
-}
-var obj = new Obj; 
-// obj.getNum();//1　　打印的是obj.num，值为1
-// obj.getNumLater()//1　　打印的是obj.num，值为1
+// function Obj (){
+//     this.num = 1,
+//     this.getNum = function(){
+//         console.log(this.num);
+//     },
+//     this.getNumLater = function(){
+//         setTimeout(() => {
+//             console.log(this.num);
+//         }, 3000)    //箭头函数中的this总是指向外层调用者，也就是Obj
+//     }
+// }
+// var obj = new Obj; 
+// // obj.getNum();//1　　打印的是obj.num，值为1
+// // obj.getNumLater()//1　　打印的是obj.num，值为1
 
-var d ={num: 'fanze'}
+// var d ={num: 'fanze'}
 
-var c = obj.getNumLater;
-c();
-d.c = c;
-d.c();
+// var c = obj.getNumLater;
+// c();
+// d.c = c;
+// d.c();
 
 function deepClone(target, map = new WeakMap()) {
   if (typeof target === 'object') {
@@ -407,6 +407,7 @@ var name = 'window';
 
 var A = {
    name: 'A',
+   test:'midd',
    sayHello: function(){
      console.log(this.name, 'outter');
       var s = () => console.log(this.name)
@@ -414,18 +415,88 @@ var A = {
    }
 }
 
-var sayHello = A.sayHello;
-A.sayHello();
-sayHello();// 输出A 
 
-var B = {
-   name: 'B'
+
+let b = {
+  test: 'btest',
 }
-B.sayHello = sayHello;
 
-B.sayHello();
-sayHello.call(B); //还是A
-sayHello.call(); //还是
-var b = deepClone(a);
-console.log(b);
+var test = '123';
+
+let outter = () => {
+  console.log(this.test);
+}
+
+
+function hello() {
+  console.log(this);
+  outter();
+}
+
+hello.call(A);
+hello.call(b);
+
+
+// var sayHello = A.sayHello;
+// A.sayHello();
+// sayHello();// 输出A 
+
+// var B = {
+//    name: 'B'
+// }
+// B.sayHello = sayHello;
+
+// B.sayHello();
+// sayHello.call(B); //还是A
+// sayHello.call(); //还是
+// var b = deepClone(a);
+// console.log(b);
 // console.log(a);
+
+function testOutter() {
+  let inner = () => {console.log(this.one)};
+  return inner;
+}
+
+testOutter.call({one:'1223'})();
+testOutter.call({one:'qqqq'})();
+testOutter()();
+
+// var xhr = new XMLHttpRequest();
+// xhr.onreadtstatechange = function() {
+//   if (xhr.readyState === 4 ) {
+//     console.log(xhr.response);
+//   }
+// }
+
+// xhr.open('GET','https://www.baidu.com/',false);
+// xhr.send();
+
+
+Function.prototype.myApply = function(context, args) {
+  let fn = this;
+  let symbol = Symbol();
+  context[symbol] = fn;
+  let val = context[symbol](...args);
+  delete context[symbol];
+  return val;
+}
+
+var helloA = {name:'fan'};
+function hellFn() {
+  console.log(this.name);
+}
+hellFn.myApply(helloA, [1,2]);
+
+
+
+
+
+
+
+
+
+
+
+
+
