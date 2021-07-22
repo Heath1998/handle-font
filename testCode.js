@@ -363,6 +363,8 @@ class myEventEmitter{
 // var obj = new Obj; 
 // // obj.getNum();//1　　打印的是obj.num，值为1
 // // obj.getNumLater()//1　　打印的是obj.num，值为1
+// obj.getNum();//1　　打印的是obj.num，值为1
+// obj.getNumLater()//1　　打印的是obj.num，值为1
 
 // var d ={num: 'fanze'}
 
@@ -371,31 +373,104 @@ class myEventEmitter{
 // d.c = c;
 // d.c();
 
-function deepClone(target, map = new WeakMap()) {
-  if (typeof target === 'object') {
-    let resTarget = target instanceof Array ? [] : {};
-    if (map.get(target)) {
-      return map.get(target);
+// function deepClone(target, map = new WeakMap()) {
+//   if (typeof target === 'object') {
+//     let resTarget = target instanceof Array ? [] : {};
+//     if (map.get(target)) {
+//       return map.get(target);
+//     }
+//     map.set(target, resTarget);
+//     for(var key in target) {
+//       resTarget[key] = deepClone(target[key], map);
+//     }
+//     return resTarget;
+//   } else {
+//     return target;
+//   }
+// }
+
+
+// var a = {
+//   one: {
+//     hello:123,
+//     helloArray: [1,2,3],
+//   },
+//   two: 2,
+// }
+
+// a.three = a;
+
+// var b = deepClone(a);
+// console.log(b);
+// console.log(a);
+
+function resolvePromise2(promise2, x, resolve) {
+  if (promise2 === x) {
+    return;
+  } 
+  if (typeof x !== null && typeof x === 'object') {
+    let then = x.then;
+    if (typeof then === 'function') {
+      then.call(x, y=> {
+        resolvePromise2(promise2, y, resolve);
+      })
+    } else {
+      resolve(x);
     }
-    map.set(target, resTarget);
-    for(var key in target) {
-      resTarget[key] = deepClone(target[key], map);
-    }
-    return resTarget;
   } else {
-    return target;
+    resolve(x);
   }
 }
 
+class Promise2 {
+  constructor(excutor) {
+    this.callbacks = [];
+    this.state = 'pending';
+    this.value = undefined;
+    let resolve = (value) => {
+      if (this.state === 'pending'){
+        this.value = value;
+        this.state = 'fulfilled';
+        this.callbacks.forEach(fn => fn());
+      }
+    }
+    excutor(resolve);
+  }
 
-var a = {
-  one: {
-    hello:123,
-    helloArray: [1,2,3],
-  },
-  two: 2,
+  then(onFulfilled) {
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : onFulfilled => onFulfilled;
+    let promise2 = new Promise2((resolve) => {
+      if (this.state === 'fulfilled') {
+        setTimeout(() => {
+          let val = onFulfilled(this.value);
+          resolvePromise2(promise2, val, resolve);
+        },0);
+      } else if (this.state === 'pending') {
+        this.callbacks.push(() => {
+          setTimeout(() => {
+            let val = onFulfilled(this.value);
+            resolvePromise2(promise2, val, resolve);
+          },0);
+        })
+      }
+    })
+    return promise2;
+  }
 }
 
+let sada = new Promise2((resolve) => {
+  resolve('fanzehong');
+}).then((val) => {
+  console.log(val);
+  // let z = 12312
+  let z = new Promise2((c) => {
+    c('last')
+  });
+  console.log(z);
+  return z;
+}).then((m) => {
+  console.log(m);
+})
 a.three = a;
 
 // var b = deepClone(a);

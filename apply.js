@@ -8,15 +8,10 @@ function test(arg1, arg2, arg3) {
 
 
 Function.prototype.myApply = function (context, args) {
-  context.fn = this;
-  console.log(context);
-  let res;
-  if (!args){
-    res = context.fn();
-  } else  {
-    res = context.fn(...args);
-  }
-  delete context.fn;
+  let symbol = Symbol();
+  context[symbol] = this;
+  let res = context[symbol](...args);
+  delete context[symbol];
   return res;
 }
 

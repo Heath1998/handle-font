@@ -28,3 +28,16 @@ Function.prototype.myBind2 = function(context, ...args) {
   fBound.prototype = fn.prototype;
   return fBound;
 }
+
+
+Function.prototype.myBind3 = function(context, ...args) {
+  let selfFn = this;
+  let fONP = function() {};
+  function fBound(...newArgs) {
+    return selfFn.apply(this instanceof fONP ? this: context, [...args, ...newArgs]);
+  }
+  fONP.prototype = selfFn.prototype;
+  fBound.prototype = new fONP();
+  return fBound;
+}
+
