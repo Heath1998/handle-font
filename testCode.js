@@ -361,6 +361,8 @@ class myEventEmitter{
 //     }
 // }
 // var obj = new Obj; 
+// // obj.getNum();//1　　打印的是obj.num，值为1
+// // obj.getNumLater()//1　　打印的是obj.num，值为1
 // obj.getNum();//1　　打印的是obj.num，值为1
 // obj.getNumLater()//1　　打印的是obj.num，值为1
 
@@ -480,6 +482,7 @@ var name = 'window';
 
 var A = {
    name: 'A',
+   test:'midd',
    sayHello: function(){
      console.log(this.name, 'outter');
       var s = () => console.log(this.name)
@@ -487,18 +490,88 @@ var A = {
    }
 }
 
-var sayHello = A.sayHello;
-A.sayHello();
-sayHello();// 输出A 
 
-var B = {
-   name: 'B'
+
+let b = {
+  test: 'btest',
 }
-B.sayHello = sayHello;
 
-B.sayHello();
-sayHello.call(B); //还是A
-sayHello.call(); //还是
-var b = deepClone(a);
-console.log(b);
+var test = '123';
+
+let outter = () => {
+  console.log(this.test);
+}
+
+
+function hello() {
+  console.log(this);
+  outter();
+}
+
+hello.call(A);
+hello.call(b);
+
+
+// var sayHello = A.sayHello;
+// A.sayHello();
+// sayHello();// 输出A 
+
+// var B = {
+//    name: 'B'
+// }
+// B.sayHello = sayHello;
+
+// B.sayHello();
+// sayHello.call(B); //还是A
+// sayHello.call(); //还是
+// var b = deepClone(a);
+// console.log(b);
 // console.log(a);
+
+function testOutter() {
+  let inner = () => {console.log(this.one)};
+  return inner;
+}
+
+testOutter.call({one:'1223'})();
+testOutter.call({one:'qqqq'})();
+testOutter()();
+
+// var xhr = new XMLHttpRequest();
+// xhr.onreadtstatechange = function() {
+//   if (xhr.readyState === 4 ) {
+//     console.log(xhr.response);
+//   }
+// }
+
+// xhr.open('GET','https://www.baidu.com/',false);
+// xhr.send();
+
+
+Function.prototype.myApply = function(context, args) {
+  let fn = this;
+  let symbol = Symbol();
+  context[symbol] = fn;
+  let val = context[symbol](...args);
+  delete context[symbol];
+  return val;
+}
+
+var helloA = {name:'fan'};
+function hellFn() {
+  console.log(this.name);
+}
+hellFn.myApply(helloA, [1,2]);
+
+
+
+
+
+
+
+
+
+
+
+
+
