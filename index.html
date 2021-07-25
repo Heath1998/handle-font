@@ -12,7 +12,7 @@
   <div class="item"></div>
 </div>
 <style>
-  .fl{
+  .fl {
     width: 500px;
     height: 300px;
     border: 1px solid black;
@@ -24,45 +24,80 @@
     flex: 1;
     border: 1px solid blue;
   }
-  .test{
-    width:30px;
-    height:30px;
+  .test {
+    width: 30px;
+    height: 30px;
     background-color: aqua;
     position: relative;
     top: 50%;
     left: 50%;
   }
 </style>
-<script src="https://www.baidu.com/"></script>
 <script>
-
+  function fn(f, time){
+  f&&f();
+  setTimeout(()=>{
+    fn(f,time);
+  },time)
+}
+fn(()=>{
+  // console.log(1);
+},300)
   // function hello() {
   //   var dom = document.getElementById('test');
   // dom.style.display = "block";
   // dom.src= "https://user-gold-cdn.xitu.io/2018/9/4/165a252be5c94d6b?imageslim";
   // }
-  class a {
-    constructor() {
-      this.hello = 1;
-    }
-    then() {
-      console.log("12");
-    }
-  }
+  // let abcde = 0;
+  // let test = ()=>{
+  //   abcde++;
+  //   if (abcde <0) {
+  //     return;
+  //   } else {
+  //     fn();
+  //   }
+  //   }
+  // function fn(f, time) {
+  //   // f&f();
+  //   // let a =new Array(1000).fill(123);
+  //   // fn()
+  //   setTimeout(test,time)
+  // }
+  // fn(() => {
+  //   // console.log(1);
+  // }, 300);
+//   let abc =  0;
+//   function fn(f, time){
+//   f&&f();
+//   setTimeout(()=>{
+//     // abc++;
+//     // if (abc > 50) {
+//     //   alert('12');
+//     //   return;
+//     // }
+//     fn(f,time);
+//   },time)
+// }
+// fn(()=>{
+//   // console.log(1);
+// },1000)
 
-  var ddd = new a();
-  console.log(ddd);
+    // for(let i=0;i<100;i++) {
+    //   setTimeout(() => {
+        
+    //   }, 10000);
+    // }
 
-  class b extends a {
-    constructor() {
-      super();
-      this.childb = "son";
-    }
-    childsan() {
-      console.log("as");
-    }
-  }
 
-  var z = new b();
-  console.log(z);
+  // function isEven(num) {
+  //   if (num === 0) {
+  //     return true;
+  //   }
+  //   if (num === 1) {
+  //     return false;
+  //   }
+  //   return function () {
+  //     return isEven(Math.abs(num) - 2);
+  //   };
+  // } //Outputs: true console.log(isEven(4)()());
 </script>

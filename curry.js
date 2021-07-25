@@ -14,4 +14,9 @@ let currying = (fn, args) => {
 let test = currying((a,b,c) => {
   return a+b+c;
 });
-console.log(test(1)(2)(3));
+// console.log(test(1)(2)(3));
+
+
+
+const func = componse(a, b,c,d);
+func('xxx');
