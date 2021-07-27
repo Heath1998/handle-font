@@ -4,3 +4,5 @@ function myInterval(fn, time) {
     myInterval(fn, time);
   }, time);
 }
+
+myInterval(()=> {}, 300);
