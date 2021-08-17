@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div style="height:1000px;"></div>
+  <div id="app" style="height:50px;width:50px;background:black"></div>
+</body>
+
+<script>
+  var dom = document.getElementById('app');
+  
+  dom.onmousedown = function(e) {
+    var shiftX = e.clientX - dom.getBoundingClientRect().left;
+    var shiftY = e.clientY - dom.getBoundingClientRect().top;
+    dom.style.position = 'absolute';
+    function onmousemove(eventMove) {
+      dom.style.left = eventMove.pageX - shiftX + 'px';
+      dom.style.top = eventMove.pageY - shiftY + 'px';
+    }
+    document.addEventListener('mousemove', onmousemove);
+    dom.onmouseup = function() {
+      document.removeEventListener('mousemove', onmousemove);
+      dom.onmouseup = null;
+    }
+  }
+</script>
+</html>
