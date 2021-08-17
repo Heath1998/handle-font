@@ -1,16 +1,32 @@
 
-<<<<<<< HEAD
-=======
 <div style="background: red" onclick="hello()">hello</div>
 <div class="test">123</div>
 <div class="two">123</div>
+<script>
+  window.addEventListener('error', function(e) {
+    console.log(e);
+  }, true);
 
+  var fn = 123;
+  function fn() {
+
+  }
+
+  function test() {
+    return () => {
+      console.log(thia.one);
+    }
+  }
+  let a = test.call({one:123});
+  a();
+</script>
 <div class="fl">
   <div class="item"></div>
   <div class="item"></div>
   <div class="item"></div>
   <div class="item"></div>
   <div class="item"></div>
+  <img src="asdasdas" alt="">
 </div>
 <style>
   .fl {
@@ -34,30 +50,15 @@
     left: 50%;
   }
 </style>
->>>>>>> 8114a63060fa28dc4cb6a0a6b976809a02318a2d
 <script>
-  function fn(f, time){
-  f&&f();
-  setTimeout(()=>{
-    fn(f,time);
-  },time)
-}
-fn(()=>{
-  // console.log(1);
-},300)
+  
   // function hello() {
   //   var dom = document.getElementById('test');
   // dom.style.display = "block";
   // dom.src= "https://user-gold-cdn.xitu.io/2018/9/4/165a252be5c94d6b?imageslim";
   // }
-  function myInterval(fn, time) {
-  setTimeout(() => {
-    fn()
-    myInterval(fn, time);
-  }, time);
-}
 
-myInterval(()=> {}, 300);
+
   // let abcde = 0;
   // let test = ()=>{
   //   abcde++;

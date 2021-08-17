@@ -61,62 +61,62 @@
 //   console.log('123');
 // }
 
-function resolvePromise(promise2, x, resolve) {
-  if (x === promise2) {
-    return ;
-  }
-  if (typeof x === 'object') {
-    let then = x.then;
-    if(typeof then === 'function') {
-      then.call(x, y=>{
-        resolvePromise(x, y, resolve);
-      })
-    } else {
-      resolve(x);
-    }
-  } else {
-    resolve(x);
-  }
-}
+// function resolvePromise(promise2, x, resolve) {
+//   if (x === promise2) {
+//     return ;
+//   }
+//   if (typeof x === 'object') {
+//     let then = x.then;
+//     if(typeof then === 'function') {
+//       then.call(x, y=>{
+//         resolvePromise(x, y, resolve);
+//       })
+//     } else {
+//       resolve(x);
+//     }
+//   } else {
+//     resolve(x);
+//   }
+// }
 
 
-class myPromise{
-  constructor(excutor) {
-    this.status = 'pending';
-    this.value = undefined;
-    this.callbacks = [];
+// class myPromise{
+//   constructor(excutor) {
+//     this.status = 'pending';
+//     this.value = undefined;
+//     this.callbacks = [];
 
-    let resolve  = (value) => {
-      if(this.status === 'pending') {
-        this.status = 'fulfilled';
-        this.value = value;
-        this.callbacks.forEach(fn => fn());
-      }
-    }
-    excutor(resolve);
-  }
+//     let resolve  = (value) => {
+//       if(this.status === 'pending') {
+//         this.status = 'fulfilled';
+//         this.value = value;
+//         this.callbacks.forEach(fn => fn());
+//       }
+//     }
+//     excutor(resolve);
+//   }
 
 
-  then(onFulfilled) {
-    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : val => val; 
-    let promise2 = new myPromise((resolve) => {
-      if (this.status === 'fulfilled') {
-        setTimeout(() => {
-          let val = onFulfilled(this.value);
-          resolvePromise(promise2, val,resolve);
-        },0);
-      } else if(this.status === 'pending') {
-        this.callbacks.push(() => {
-          setTimeout(() => {
-            let val = onFulfilled(this.value);
-            resolvePromise(promise2, val,resolve);
-          },0)
-        })
-      }
-    })
-    return promise2;
-  }
-}
+//   then(onFulfilled) {
+//     onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : val => val; 
+//     let promise2 = new myPromise((resolve) => {
+//       if (this.status === 'fulfilled') {
+//         setTimeout(() => {
+//           let val = onFulfilled(this.value);
+//           resolvePromise(promise2, val,resolve);
+//         },0);
+//       } else if(this.status === 'pending') {
+//         this.callbacks.push(() => {
+//           setTimeout(() => {
+//             let val = onFulfilled(this.value);
+//             resolvePromise(promise2, val,resolve);
+//           },0)
+//         })
+//       }
+//     })
+//     return promise2;
+//   }
+// }
 
 
 // let a = new myPromise((resolve) => {
@@ -133,34 +133,34 @@ class myPromise{
 //   console.log(m);
 // })
 
-class myEventEmitter{
-  constructor() {
-    this.events = {};
-  }
-  on(eventName, callback) {
-    if (this.events[eventName]) {
-      this.events[eventName].push(callback);
-    } else {
-      this.events[eventName] = [];
-      this.events[eventName].push(callback);
-    }
-  }
-  emit(eventName, ...args) {
-    this.events[eventName].forEach(fn => fn.apply(this, args));
-  }
-  off(eventName, callback) {
-    if (this.events[eventName]) {
-      this.events[eventName] = this.events[eventName].filter(fn => fn!==callback);
-    }
-  }
-  once(eventName, callback) {
-    let fn = () => {
-      callback();
-      this.off(eventName, fn);
-    }
-    this.on(eventName, fn);
-  }
-}
+// class myEventEmitter{
+//   constructor() {
+//     this.events = {};
+//   }
+//   on(eventName, callback) {
+//     if (this.events[eventName]) {
+//       this.events[eventName].push(callback);
+//     } else {
+//       this.events[eventName] = [];
+//       this.events[eventName].push(callback);
+//     }
+//   }
+//   emit(eventName, ...args) {
+//     this.events[eventName].forEach(fn => fn.apply(this, args));
+//   }
+//   off(eventName, callback) {
+//     if (this.events[eventName]) {
+//       this.events[eventName] = this.events[eventName].filter(fn => fn!==callback);
+//     }
+//   }
+//   once(eventName, callback) {
+//     let fn = () => {
+//       callback();
+//       this.off(eventName, fn);
+//     }
+//     this.on(eventName, fn);
+//   }
+// }
 
 // let a = new myEventEmitter();
 // var fn = (num)=> {
