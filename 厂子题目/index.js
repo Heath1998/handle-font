@@ -58,19 +58,49 @@
 
 // f(['ab', 'c', 'd', 'ab', 'c']) => ['ab1', 'c1', 'd', 'ab2', 'c2']
 
-function f(arr) {
-  let map = new Map();
+// function f(arr) {
+//   let map = new Map();
+//   let res = [];
+//   for(let i=0;i<arr.length;i++) {
+//     if (map.has(arr[i])) {
+//       let cur = map.get(arr[i]) + 1;
+//       map.set(arr[i], cur);
+//       res.push(arr[i] + cur);
+//     } else {
+//       map.set(arr[i], 1);
+//       res.push(arr[i] + 1);
+//     }
+//   }
+//   return res;
+// }
+// console.log(f(['ab', 'c', 'd', 'ab', 'c']))
+
+// 输入 n，给出 1~n 的所有排列，不要求输出有序子集
+// 即 输入 3，输出 1，2，3，12，13，23，123
+// 有没有大佬会用java实现一下给个答案？
+
+
+function count(nums) {
+
   let res = [];
-  for(let i=0;i<arr.length;i++) {
-    if (map.has(arr[i])) {
-      let cur = map.get(arr[i]) + 1;
-      map.set(arr[i], cur);
-      res.push(arr[i] + cur);
-    } else {
-      map.set(arr[i], 1);
-      res.push(arr[i] + 1);
+  function dfs(index, curRes) {
+    if (index === nums+1) {
+      res.push(curRes.slice());
+      return;
+    }
+    for(let i = 0;i<=1;i++) {
+      if (i === 0) {
+        dfs(index+1,curRes);
+      } else {
+        curRes.push(index);
+        dfs(index+1,curRes);
+        curRes.pop();
+      }
     }
   }
+
+  dfs(1, []);
   return res;
 }
-console.log(f(['ab', 'c', 'd', 'ab', 'c']))
+
+console.log(count(3));
