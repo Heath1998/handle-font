@@ -33,6 +33,21 @@
 // console.log(a);
 
 
+// var length = 10;
+// function fn() {
+//  return this.length + 1;
+// }
+// var obj1 = {
+//  length: 5,
+//    test1: function() {
+//      return fn()
+//  }
+// }
+// obj1.test2 = fn;
+// console.log(obj1.test1.call())
+// console.log(obj1.test1())
+// console.log(obj1.test2.call())
+// console.log(obj1.test2())
 
 
 // fn([['a', 'b'], ['n', 'm'], ['0', '1']]) => ['an0', 'am0', 'an1', 'am1', 'bn0', 'bm0', 'bn1', 'bm0']
