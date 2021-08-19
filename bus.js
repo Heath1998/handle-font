@@ -410,10 +410,139 @@
 
 
 
-'use strict'
-let obj = {
-  a:123
+// 'use strict'
+// let obj = {
+//   a:123
+// }
+
+// Reflect.deleteProperty(obj, 'a');
+// console.log(obj);
+
+
+
+
+
+
+// let target = [{name: 'fan', index: '1'}, {name: 'one', index: '2'}]
+
+// function def(obj, key, value) {
+//   Object.defineProperty(obj, key, {
+//     get() {
+//       console.log('get',value);
+//       return value;
+//     },
+//     set(newValue) {
+//       value =newValue;
+//       console.log('set',obj.index);
+//       return value;
+//     }
+//   })
+// }
+
+// for(let i =0;i<target.length;i++) {
+//   def(target[i], 'name', target[i].name);
+//   def(target[i], 'index', target[i].index);
+// }
+
+// target[0].name = 'asda';
+
+// function curry(fn, args) {
+//   let len = fn.length;
+//   args = args || [];
+//   return function(...newArgs) {
+//     let cur = [...args, ...newArgs];
+//     if (cur.length >= len) {
+//       return fn.apply(null, cur);
+//     } else {
+//       return curry(fn, cur);
+//     }
+//   }
+// }
+
+
+// let dd = curry((a,b,c) => {return a+b+c});
+// let res = dd(1)
+// console.log(res);
+// res = res(2)(3);
+// console.log(res);
+
+
+// function deepClone(target, map = new WeakMap()) {
+//   if (typeof target === 'object') {
+//     let res = target instanceof Array ? [] : {};
+//     if (map.has(target)) {
+//       return map.get(target);
+//     }
+//     map.set(target, res);
+//     for(let key in target) {
+//       res[key] = deepClone(target[key], map);
+//     }
+//     return res;
+//   } else {
+//     return target;
+//   }
+// }
+
+// let a = {
+//   d:123,
+//   bb:[12,3]
+// }
+// let z = deepClone(a)
+// console.log(z);
+
+
+
+const http = require('http');
+
+function componse(middleList) {
+  return function(ctx) {
+    function dispatch(index) {
+      let fn = middleList[index];
+      if (!fn) {
+        return Promise.resolve();
+      }
+      try{
+        return Promise.resolve(fn(ctx, dispatch.bind(null, index+1)));
+      } catch(e) {
+        return Promise.reject(e);
+      }
+    }
+    return dispatch(0);
+  }
 }
 
-Reflect.deleteProperty(obj, 'a');
-console.log(obj);
+class koa{
+  constructor() {
+    this.middleList = [];
+  }
+  use(fn) {
+    this.middleList.push(fn);
+  }
+  callback() {
+    let fn = componse(this.middleList);
+    return function(req, res) {
+      let ctx = {req, res};
+      fn(ctx);
+    }
+  }
+  listen(...args) {
+    let serve = http.createServer(this.callback());
+    serve.listen(...args);
+  }
+}
+
+let serve = new koa();
+serve.use(async function(ctx, next) {
+  console.log('fan1-head');
+  await next();
+  console.log('fan1-back');
+});
+
+serve.use(async function(ctx, next) {
+  console.log('fan2-head');
+  await next();
+  console.log('fan2-back');
+});
+
+
+serve.listen(3000);
