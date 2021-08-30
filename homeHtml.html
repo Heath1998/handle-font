@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul id="list" onclick="one(event)">
+    <li>
+      <div >
+
+      </div>
+    </li>
+    <li>2</li>
+    <li>3</li>
+    <p>4</p>
+</ul>
+
+</body>
+
+<script>
+  var dom = document.getElementById('list');
+  var children = dom.children;
+  function one(event) {
+    for(var i=0;i<children.length;i++) {
+      if (event.target === children[i]) {
+        console.log(i);
+        return;
+      }
+    }
+  }
+  // document.getElementsByTagName
+  // var last = dom.children[3];
+  // dom.removeChild(last);
+</script>
+</html>
