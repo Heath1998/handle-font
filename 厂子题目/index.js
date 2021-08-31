@@ -89,3 +89,33 @@
 //   return res;
 // }
 // console.log(f(['ab', 'c', 'd', 'ab', 'c']))
+
+// 输入 n，给出 1~n 的所有排列，不要求输出有序子集
+// 即 输入 3，输出 1，2，3，12，13，23，123
+// 有没有大佬会用java实现一下给个答案？
+
+
+function count(nums) {
+
+  let res = [];
+  function dfs(index, curRes) {
+    if (index === nums+1) {
+      res.push(curRes.slice());
+      return;
+    }
+    for(let i = 0;i<=1;i++) {
+      if (i === 0) {
+        dfs(index+1,curRes);
+      } else {
+        curRes.push(index);
+        dfs(index+1,curRes);
+        curRes.pop();
+      }
+    }
+  }
+
+  dfs(1, []);
+  return res;
+}
+
+console.log(count(3));

@@ -38,19 +38,27 @@
     </style>
   </head>
   <body>
+    <input id="test" type="file" onchange="one(event)" />
+    <a href="http://f.hiphotos.baidu.com/image/pic/item/3ac79f3df8dcd1008742b1cc788b4710b8122f04.jpg"  download="xxx.jpg">加download属性</a>
     <div class="card"></div>
     <div class="card"></div>
     <!-- ... -->
     <!-- 此处省略97个<div class="card"></div> -->
     <!-- ... -->
+
     <div class="card"></div>
   </body>
   <script>
-      for(let i=0;i<100;i++) {
-          let dom = document.createElement('div');
-          dom.innerText = 'hello';
-          dom.setAttribute('class', 'card');
-          document.body.appendChild(dom);
-      }
+    function one() {
+      var a = document.getElementById('test');
+    var file = a.files[0];
+    let d = file.slice();
+    console.log(d);
+    debugger;
+    console.log(file);
+    }
+    // createDownload("download.jpg","download file");
+
+
   </script>
 </html>
