@@ -179,74 +179,74 @@
 
 // let two = myclearInterval(one);
 
-var _createClass = function () {
-  function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-          var descriptor = props[i];
-          descriptor.enumerable = descriptor.enumerable || false;
-          descriptor.configurable = true;
-          if ("value" in descriptor) descriptor.writable = true;
-          Object.defineProperty(target, descriptor.key, descriptor);
-      }
-  }
+// var _createClass = function () {
+//   function defineProperties(target, props) {
+//       for (var i = 0; i < props.length; i++) {
+//           var descriptor = props[i];
+//           descriptor.enumerable = descriptor.enumerable || false;
+//           descriptor.configurable = true;
+//           if ("value" in descriptor) descriptor.writable = true;
+//           Object.defineProperty(target, descriptor.key, descriptor);
+//       }
+//   }
 
-  return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-  };
-}();
+//   return function (Constructor, protoProps, staticProps) {
+//       if (protoProps) defineProperties(Constructor.prototype, protoProps);
+//       if (staticProps) defineProperties(Constructor, staticProps);
+//       return Constructor;
+//   };
+// }();
 
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  console.log(call, 'innertwo');
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-}
+// function _possibleConstructorReturn(self, call) {
+//   if (!self) {
+//       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+//   }
+//   console.log(call, 'innertwo');
+//   return call && (typeof call === "object" || typeof call === "function") ? call : self;
+// }
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-  }
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-          value: subClass,
-          enumerable: false,
-          writable: true,
-          configurable: true
-      }
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
+// function _inherits(subClass, superClass) {
+//   if (typeof superClass !== "function" && superClass !== null) {
+//       throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+//   }
+//   subClass.prototype = Object.create(superClass && superClass.prototype, {
+//       constructor: {
+//           value: subClass,
+//           enumerable: false,
+//           writable: true,
+//           configurable: true
+//       }
+//   });
+//   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+// }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-  }
-}
+// function _classCallCheck(instance, Constructor) {
+//   if (!(instance instanceof Constructor)) {
+//       throw new TypeError("Cannot call a class as a function");
+//   }
+// }
 
-var Parent = function () {
-  function Parent(name, age) {
-      _classCallCheck(this, Parent);
+// var Parent = function () {
+//   function Parent(name, age) {
+//       _classCallCheck(this, Parent);
 
-      this.name = name;
-      this.age = age;
-  }
+//       this.name = name;
+//       this.age = age;
+//   }
 
-  _createClass(Parent, [{
-      key: "speakSomething",
-      value: function speakSomething() {
-          console.log("I can speek chinese");
-      }
-  }]);
+//   _createClass(Parent, [{
+//       key: "speakSomething",
+//       value: function speakSomething() {
+//           console.log("I can speek chinese");
+//       }
+//   }]);
 
-  return Parent;
-}();
+//   return Parent;
+// }();
 
-Parent.height = 12;
+// Parent.height = 12;
 
-Parent.prototype.color = 'yellow';
+// Parent.prototype.color = 'yellow';
 
 //定义子类，继承父类
 
@@ -289,3 +289,35 @@ Parent.prototype.color = 'yellow';
 // }
 
 // dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+
+
+// Function.prototype.myBind = function (context, ...args) {
+//   let fn = this;
+//   function fNop() {}
+
+//   function resFn(...newArgs) {
+//     return fn.apply(this instanceof fNop ? this : context, [...args, ...newArgs]);
+//   }
+
+//   fNop.prototype = fn.prototype;
+//   resFn.prototype = new fNop();
+//   return resFn;
+// } 
+
+// let id = 0;
+// let timeMap = {};
+
+// function myInterval(cb, time) {
+//   let timer = id
+//   id++;
+//   const fn = () => {
+//     cb();
+//     timeMap[timer] = setTimeout(fn, time);
+//   }
+//   timeMap[timer] = setTimeout(fn, timeout);
+//   return timer;
+// }
+
+// const myClearInterval = (timerId) => {
+//   clearTimeout(timeMap[timerId]);
+// }
