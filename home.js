@@ -389,25 +389,69 @@
 
 // 当想实现sum(1),sum(1)(2)为值时
 
-function curry2(fn) {
-  let args = [];
-  let resFn = function(...newArgs) {
-    args = [...args, ...newArgs];
-    return resFn;
+// function curry2(fn) {
+//   let args = [];
+//   let resFn = function(...newArgs) {
+//     args = [...args, ...newArgs];
+//     return resFn;
+//   }
+//   resFn.valueOf = function() {
+//     return fn(args);
+//   }
+//   return resFn;
+// }
+
+// function add(arr) {
+//   return arr.reduce((acc, val) => {
+//     return acc+val;
+//   })
+// }
+
+// let sum = curry2(add);
+
+// console.log(sum(1)(2) + 0);
+// console.log(sum(1)(2)(3));
+
+
+// 字节面试题，控制并发，并实现以下函数
+// 实现scheduler的思想，控制并发
+class Scheduler {
+  constructor() {
+    this.max = 2;
+    this.pendingList = [];
+    this.task = [];
   }
-  resFn.valueOf = function() {
-    return fn(args);
+  add(promiseCreator) {
+    if (this.task.length < this.max) {
+      this.runWork(promiseCreator)
+    } else {
+      this.pendingList.push(promiseCreator);
+    }
+   }
+
+   runWork(promiseCreator) {
+    this.task.push(promiseCreator);
+    promiseCreator().then(() => {
+      this.task.splice(this.task.indexOf(promiseCreator), 1);
+      if (this.pendingList.length) {
+        this.runWork(this.pendingList.shift());
+      } 
+    })
   }
-  return resFn;
+  // ...
+}
+   
+const timeout = time => new Promise(resolve => {
+  setTimeout(resolve, time);
+})
+  
+const scheduler = new Scheduler();
+  
+const addTask = (time,order) => {
+  scheduler.add(() => timeout(time).then(()=>console.log(order)))
 }
 
-function add(arr) {
-  return arr.reduce((acc, val) => {
-    return acc+val;
-  })
-}
-
-let sum = curry2(add);
-
-console.log(sum(1)(2) + 0);
-console.log(sum(1)(2)(3));
+addTask(1000, '1');
+addTask(500, '2');
+addTask(300, '3');
+addTask(400, '4');

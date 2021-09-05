@@ -25,47 +25,48 @@
 
 // --------------------------------------------------------
 
-//字节面试题，控制并发，并实现以下函数
+// 字节面试题，控制并发，并实现以下函数
 // 实现scheduler的思想，控制并发
-// class Scheduler {
-//   constructor() {
-//     this.running = 0;
-//     this.pendingList = [];
-//   }
-//   add(promiseCreator) {
-//     if (this.running < 2) {
-//       this.running++;
-//       promiseCreator().then(v => this.run());
-//     } else {
-//       this.pendingList.push(promiseCreator);
-//     }
-//    }
+class Scheduler {
+  constructor() {
+    this.max = 2;
+    this.pendingList = [];
+    this.task = [];
+  }
+  add(promiseCreator) {
+    if (this.task.length < this.max) {
+      this.runWork(promiseCreator)
+    } else {
+      this.pendingList.push(promiseCreator);
+    }
+   }
 
-//   run() {
-//     this.running--;
-//     if (this.pendingList.length > 0) {
-//       let cur = this.pendingList.shift();
-//       this.running++;
-//       cur().then(v => this.run());
-//     }
-//   }
-//   // ...
-// }
+   runWork(promiseCreator) {
+    this.task.push(promiseCreator);
+    promiseCreator().then(() => {
+      this.task.splice(this.task.indexOf(promiseCreator), 1);
+      if (this.pendingList.length) {
+        this.runWork(this.pendingList.shift());
+      } 
+    })
+  }
+  // ...
+}
    
-// const timeout = time => new Promise(resolve => {
-//   setTimeout(resolve, time);
-// })
+const timeout = time => new Promise(resolve => {
+  setTimeout(resolve, time);
+})
   
-// const scheduler = new Scheduler();
+const scheduler = new Scheduler();
   
-// const addTask = (time,order) => {
-//   scheduler.add(() => timeout(time).then(()=>console.log(order)))
-// }
+const addTask = (time,order) => {
+  scheduler.add(() => timeout(time).then(()=>console.log(order)))
+}
 
-// addTask(1000, '1');
-// addTask(500, '2');
-// addTask(300, '3');
-// addTask(400, '4');
+addTask(1000, '1');
+addTask(500, '2');
+addTask(300, '3');
+addTask(400, '4');
 
 
 // --------------------------------------------------------
