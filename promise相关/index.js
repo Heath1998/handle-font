@@ -80,14 +80,16 @@ function pMap(list, mapper, count) {
     let index = 0;
     let res = [];
     let len = list.length;
+    let num = 0
     function next() {
       let curIndex = index;
       index++;
       Promise.resolve(list[curIndex]).then(v => mapper(v)).then(o => {
         res[curIndex] = o;
+        num++;
         if (index < len) {
           next();
-        } else {
+        } else if (num === len){
           resolve(res);
         }
       })

@@ -492,57 +492,280 @@
 
 
 
-const http = require('http');
+// const http = require('http');
 
-function componse(middleList) {
-  return function(ctx) {
-    function dispatch(index) {
-      let fn = middleList[index];
-      if (!fn) {
-        return Promise.resolve();
-      }
-      try{
-        return Promise.resolve(fn(ctx, dispatch.bind(null, index+1)));
-      } catch(e) {
-        return Promise.reject(e);
-      }
-    }
-    return dispatch(0);
-  }
-}
+// function componse(middleList) {
+//   return function(ctx) {
+//     function dispatch(index) {
+//       let fn = middleList[index];
+//       if (!fn) {
+//         return Promise.resolve();
+//       }
+//       try{
+//         return Promise.resolve(fn(ctx, dispatch.bind(null, index+1)));
+//       } catch(e) {
+//         return Promise.reject(e);
+//       }
+//     }
+//     return dispatch(0);
+//   }
+// }
 
-class koa{
-  constructor() {
-    this.middleList = [];
-  }
-  use(fn) {
-    this.middleList.push(fn);
-  }
-  callback() {
-    let fn = componse(this.middleList);
-    return function(req, res) {
-      let ctx = {req, res};
-      fn(ctx);
-    }
-  }
-  listen(...args) {
-    let serve = http.createServer(this.callback());
-    serve.listen(...args);
-  }
-}
+// class koa{
+//   constructor() {
+//     this.middleList = [];
+//   }
+//   use(fn) {
+//     this.middleList.push(fn);
+//   }
+//   callback() {
+//     let fn = componse(this.middleList);
+//     return function(req, res) {
+//       let ctx = {req, res};
+//       fn(ctx);
+//     }
+//   }
+//   listen(...args) {
+//     let serve = http.createServer(this.callback());
+//     serve.listen(...args);
+//   }
+// }
 
-let serve = new koa();
-serve.use(async function(ctx, next) {
-  console.log('fan1-head');
-  await next();
-  console.log('fan1-back');
-});
+// let serve = new koa();
+// serve.use(async function(ctx, next) {
+//   console.log('fan1-head');
+//   await next();
+//   console.log('fan1-back');
+// });
 
-serve.use(async function(ctx, next) {
-  console.log('fan2-head');
-  await next();
-  console.log('fan2-back');
-});
+// serve.use(async function(ctx, next) {
+//   console.log('fan2-head');
+//   await next();
+//   console.log('fan2-back');
+// });
 
 
-serve.listen(3000);
+// serve.listen(3000);
+
+// function resolvePromise(promise2, x, resolve) {
+//   if (promise2 === x) {
+//     return;
+//   }
+//   if (x && typeof x === 'object') {
+//     let then = x.then;
+//     if (typeof then === 'function') {
+//       x.then.call(x, y => {
+//         resolvePromise(promise2, y, resolve);
+//       })
+//     } else {
+//       resolve(x);
+//     }
+//   } else {
+//     resolve(x);
+//   }
+// }
+
+
+// class myPromise{
+//   constructor(excutor) {
+//     this.status = 'pending';
+//     this.fulfillCallbacks = [];
+//     this.rejectedCallbacks = [];
+//     this.value = '';
+//     this.reason = '';
+//     let resolve = (value) => {
+//       if(this.status === 'pending') {
+//         this.status = 'fulfilled';
+//         this.value = value;
+//         this.callbacks.forEach(fn => fn());
+//       }
+//     }
+//     let reject = (reason) => {
+//       if (this.status === 'pending') {
+//         this.status = 'rejected';
+//         this.reason = reason;
+//         this.rejectedCallbacks.forEach(fn => fn());
+//       }
+//     }
+//     try {
+//       excutor(resolve, reject);
+//     } catch(err) {
+//       reject(err);
+//     }
+    
+//   }
+
+//   then(onFulFn,onRejectFn) {
+//     onFulFn = typeof onFulFn === 'function' ? onFulFn : val => val;
+//     let promise2 = new myPromise((resolve, reject) => {
+//       if (this.status === 'fulfilled') {
+//         setTimeout(() => {
+//           try{
+//             let val = onFulFn(this.value);
+//             resolvePromise(promise2, val, resolve);
+//           } catch(err) {
+//             reject(err);
+//           }
+//         },0);
+//       }
+//       if (this.status === 'rejected') {
+//         setTimeout(() => {
+//           try{
+//             let val = onRejectFn(this.reason);
+//             resolvePromise(promise2, val, resolve);
+//           } catch(err) {
+//             reject(err);
+//           }
+//         },0);
+//       }
+//       if(this.status === 'pending') {
+//         this.callbacks.push(() => {
+//           setTimeout(() => {
+//             try{
+//               let val = onFulFn(this.value);
+//               resolvePromise(promise2, val, resolve);
+//             } catch(err) {
+//               reject(err);
+//             }
+//           },0)
+//         })
+//       }
+//     })
+//   }
+// }
+
+
+
+
+// P.myall = function(arr) {
+//   let res = [];
+//   let cur = 0;
+//   function deal(val,index,resolve) {
+//     res[index] = val;
+//     cur++;
+//     if (cur === arr.length) {
+//       resolve(res);
+//     }
+//   }
+
+//   for(let i=0;i<arr.length;i++) {
+//       arr[i].then(val => {
+//         deal(val, i, resolve);
+//       })
+//   }
+// }
+
+// P.myRice = function(arr) {
+//   return new Promise((resolve) => {
+//     for(let i=0;i<arr.length;i++) {
+//       arr[i].then((val) => resolve(val));
+//     }
+//   })
+// }
+
+// 并发控制count
+
+// function deal(arr,fn, count) {
+//   return new Promise((resolve) => {
+//     let len = arr.length;
+//     let index = 0;
+//     let res =[];
+//     let resCount = 0
+//     function next() {
+//       let curIndex = index;
+//       index++;
+//       Promise.resolve(arr[curIndex]).then((val) => {
+//         res[curIndex] = val;
+//         resCount++;
+//         if (index < count) {
+//           next();
+//         } else if (resCount === len){
+//           console.log(res.join());
+//         }
+//       })
+//     }
+
+//     for(let i=0;i<len&&i<count;i++) {
+//       next();
+//     }
+//   })
+// }
+
+// deal([1,2,3,4,5,6],1,6)
+
+
+// class Scheduler {
+//   constructor() {
+//     this.running = 0;
+//     this.pendingList = [];
+//     this.resCount = 0;
+//   }
+//   add(promiseCreator) {
+//     if (this.running < 2) {
+//       this.running++;
+//       promiseCreator().then(() => {
+//         this.running--;
+//         this.run();
+//       });
+//     } else {
+//       this.pendingList.push(promiseCreator);
+//     }
+//   }
+
+//   run() {
+//     if (this.running < 2) {
+//       if (this.pendingList.length) {
+//         let cur  = this.pendingList.shift();
+//         cur().then(() => {
+//           this.running--;
+//           this.run();
+//         })
+//       }
+//     }
+//   }
+//   // ...
+// }
+   
+// const timeout = time => new Promise(resolve => {
+//   setTimeout(resolve, time);
+// })
+  
+// const scheduler = new Scheduler();
+  
+// const addTask = (time,order) => {
+//   scheduler.add(() => timeout(time).then(()=>console.log(order)))
+// }
+
+// addTask(1000, '1');
+// addTask(500, '2');
+// addTask(300, '3');
+// addTask(400, '4');
+
+
+// function aclone(target, map = new WeakMap()) {
+//   if (typeof target === 'object') {
+//     let res = Array.isArray(target) ? [] : {};
+//     if (map.has(target)) {
+//       return map.get(target);
+//     } 
+//     map.set(target, res);
+//     for(let key in target) {
+//       res[key] = aclone(target[key]);
+//     }
+//     return res;
+//   } else {
+//     return target;
+//   }
+// }
+
+
+// function flat(arr, deep) {
+//   let res = [];
+//   for(let i=0;i<arr.length;i++) {
+//     if (Array.isArray(arr[i]) && deep > 0) {
+//       res = res.concat(flat(arr[i], deep-1))
+//     } else {
+//       res[i].push(arr[i]);
+//     }
+//   }
+// }

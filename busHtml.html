@@ -7,9 +7,42 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="app" style="width:50px;height:50px;background:red;"></div>
+  <!-- <div id="app" style="width:50px;height:50px;background:red;"></div>
+  <img src="adsasdas" alt="">
+  <div style="display: flex;height: 100px; align-items: center;width:700px;">
+    <div style="background-color: aqua;flex-basis: 200px;flex:1">1</div>
+    <div style="height: 50px;background-color: black;width: 200px;">1</div>
+    <div style="height: 50px;background-color: brown;width: 200px;">1</div>
+  </div> -->
+
+  <div class="father">
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+  </div>
+  <div style="height: 30px;width: 30px;background-color: black;"></div>
 </body>
-<script>
+<style>
+  .father {
+  display: grid;
+  width: 170px;
+  background-color: black;
+  grid-template-columns: 50px 50px 50px;
+  grid-template-rows: 50px 50px 50px;
+  grid-row-gap: 15px;
+  grid-column-gap: 10px;
+  }
+  .child {
+    /* width: 30px;
+    height: 30px; */
+    background-color: red;
+  }
+</style>
+<!-- <script>
+  window.addEventListener('error', function(err) {
+    console.log(err);
+  }, true);
 
   let dom = document.getElementById('app');
   dom.onmousedown = function(e) {
@@ -26,5 +59,5 @@
       dom.onmouseup = null;
     }
   }
-</script>
+</script> -->
 </html>
