@@ -63,35 +63,64 @@
 // 如：[4, 12, 8, 99, 4, 16, 35, 8]，输出4和8
 
 
-function findMaxNumFromArray(array) {
-  // TODO 代码实现
-  let map = {};
-  for(var i=0;i<array.length;i++) {
-    let cur = array[i];
-    if (map[cur] === undefined) {
-      map[cur] = 1;
-    } else {
-      map[cur]++;
-    }
-  }
-  let res = [];
-  let max = -1;
-  console.log(map);
+// function findMaxNumFromArray(array) {
+//   // TODO 代码实现
+//   let map = {};
+//   for(var i=0;i<array.length;i++) {
+//     let cur = array[i];
+//     if (map[cur] === undefined) {
+//       map[cur] = 1;
+//     } else {
+//       map[cur]++;
+//     }
+//   }
+//   let res = [];
+//   let max = -1;
+//   console.log(map);
 
-  for(var key in map) {
-    if (max < map[key]) {
-      max = map[key];
-      res = [key];
-    } else if (max === map[key]) {
-      res.push(key);
-    }
+//   for(var key in map) {
+//     if (max < map[key]) {
+//       max = map[key];
+//       res = [key];
+//     } else if (max === map[key]) {
+//       res.push(key);
+//     }
+//   }
+//   res.forEach((val) => {
+//     console.log(val);
+//   })
+// }
+
+// let nums = [4, 12, 8, 99, 4, 16, 35, 8]
+// findMaxNumFromArray(nums);
+// // 输出4和8
+
+// 数组中第k大的数
+function findK(arr, K, left,right) {
+  let par = parition(arr, left,right);
+  if (par === K-1) {
+    return arr[par];
+  } else {
+    return par < K-1 ? findK(arr, K,par+1, right) : findK(arr,K, left,par-1);
   }
-  res.forEach((val) => {
-    console.log(val);
-  })
 }
 
-let nums = [4, 12, 8, 99, 4, 16, 35, 8]
-findMaxNumFromArray(nums);
-// 输出4和8
+function parition(arr, left, right) {
+  let last = right;
+  let pValue = arr[last];
+  let par = left;
+  console.log(left);
+  console.log(right);
+  for(let i =left;i<right;i++) {
+    if (arr[i] >  pValue) {
+      [arr[i], arr[par]] = [arr[par],arr[i]];
+      par++;
+    }
+  }
+  [arr[par],arr[last]] = [arr[last], arr[par]];
+  console.log(arr);
+  return par;
+}
 
+let nums = [2,3,1,5,3,6,7];
+console.log(findK(nums, 2, 0, nums.length-1));
